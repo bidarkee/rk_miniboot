@@ -1,0 +1,5 @@
+. /etc/miniroot/common
+
+PS1='miniroot# '
+
+clear

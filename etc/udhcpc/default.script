@@ -1,0 +1,24 @@
+#!/bin/sh
+
+case $1 in
+deconfig)
+	ip link set dev ${interface} up
+	;;
+bound)
+	ip addr add ${ip}/${mask} broadcast + dev ${interface}
+	if [ -n "${router}" ]; then
+		ip route add default via ${router}
+	fi
+	if [ -n "${dns}" ]; then
+		mkdir -p /etc
+		{
+			for server in ${dns}; do
+				echo nameserver ${server}
+			done
+			if [ -n "${domain}" ]; then
+				echo search ${domain}
+			fi
+		} > /etc/resolv.conf
+	fi
+	;;
+esac
